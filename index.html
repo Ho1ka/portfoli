@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Андрій Удовенко — Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0a0510',
+                        cardBg: '#13091e',
+                        cardBorder: '#29123d',
+                        accentRed: '#e6005c',
+                        accentPurple: '#9d4edd',
+                        glowRed: 'rgba(230, 0, 92, 0.25)',
+                        glowPurple: 'rgba(157, 78, 221, 0.25)'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0510;
+            color: #f1f5f9;
+        }
+
+        /* Humanized Skill & Project Cards with Red-Violet Aesthetics */
+        .interactive-card {
+            background: linear-gradient(145deg, rgba(19, 9, 30, 0.95), rgba(28, 12, 45, 0.8));
+            border: 1px solid rgba(157, 78, 221, 0.25);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-card:hover {
+            border-color: rgba(230, 0, 92, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(230, 0, 92, 0.3), 0 0 15px -5px rgba(157, 78, 221, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #e6005c 0%, #9d4edd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Smooth Modal Visibility */
+        .modal-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .modal-content-active {
+            transform: scale(1) translateY(0) !important;
+            opacity: 1 !important;
+        }
+
+        /* Modern Red-Violet Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0510;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #29123d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e6005c;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-accentRed selection:text-white">
+
+    <header class="fixed top-0 left-0 right-0 z-40 bg-darkBg/80 backdrop-blur-md border-b border-cardBorder">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand -->
+                <a href="#hero" class="flex items-center gap-3 group">
+                    <span class="w-9 h-9 rounded-xl bg-gradient-to-tr from-accentRed to-accentPurple flex items-center justify-center font-bold text-white text-sm shadow-md group-hover:scale-105 transition-transform">
+                        АУ
+                    </span>
+                    <span class="font-bold text-white text-base tracking-tight group-hover:text-accentRed transition-colors">
+                        Андрій Удовенко
+                    </span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                    <a href="#about" class="hover:text-accentRed transition-colors">Про мене</a>
+                    <a href="#skills" class="hover:text-accentRed transition-colors">Навички</a>
+                    <a href="#projects" class="hover:text-accentRed transition-colors">Проєкти</a>
+                    <a href="#education" class="hover:text-accentRed transition-colors">Освіта</a>
+                    <a href="#contacts" class="hover:text-accentRed transition-colors">Контакти</a>
+                </nav>
+
+                <!-- Quick Action Button -->
+                <div class="flex items-center gap-3">
+                    <a href="https://t.me/hoi422" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl bg-accentRed/10 border border-accentRed/30 text-accentRed text-xs sm:text-sm font-semibold hover:bg-accentRed hover:text-white transition-all duration-200 flex items-center gap-2">
+                        <i class="fa-brands fa-telegram text-sm"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-cardBg text-slate-300 border border-cardBorder">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cardBg border-b border-cardBorder px-4 py-4 space-y-3">
+            <a href="#about" class="mobile-link block text-slate-300 hover:text-accentRed text-sm">Про мене</a>
+            <a href="#skills" class="mobile-link block text-slate-300 hover:text-accentRed text-sm">Навички</a>
+            <a href="#projects" class="mobile-link block text-slate-300 hover:text-accentRed text-sm">Проєкти</a>
+            <a href="#education" class="mobile-link block text-slate-300 hover:text-accentRed text-sm">Освіта</a>
+            <a href="#contacts" class="mobile-link block text-slate-300 hover:text-accentRed text-sm">Контакти</a>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <section id="hero" class="min-h-[80vh] flex items-center justify-center relative overflow-hidden py-16 px-4">
+            <!-- Background Glow Orbs -->
+            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accentRed/15 rounded-full blur-[130px] pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-accentPurple/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="max-w-3xl mx-auto text-center relative z-10 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cardBg border border-accentRed/30 text-xs sm:text-sm text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-accentRed animate-pulse"></span>
+                    <span>Студент 2-го курсу • Junior Java & C++</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                    Андрій <span class="text-gradient">Удовенко</span>
+                </h1>
+
+                <p class="text-lg sm:text-xl text-slate-300 max-w-xl mx-auto font-normal leading-relaxed">
+                    Розробка на Java та C++, розбір ООП і фундаментальних алгоритмів. Шукаю першу можливість для стажування чи практики в IT.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                    <a href="#skills" class="px-6 py-3 rounded-xl bg-gradient-to-r from-accentRed to-accentPurple text-white font-semibold text-sm shadow-lg shadow-accentRed/20 hover:opacity-90 transition-all flex items-center gap-2">
+                        <span>Переглянути навички</span>
+                        <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </a>
+                    <a href="#contacts" class="px-6 py-3 rounded-xl bg-cardBg border border-cardBorder hover:border-accentPurple text-slate-200 font-semibold text-sm transition-all">
+                        Зв'язатися
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-16 bg-cardBg/30 border-y border-cardBorder">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="max-w-2xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Про мене</h2>
+                    <div class="w-12 h-1 bg-gradient-to-r from-accentRed to-accentPurple mx-auto rounded-full mt-2"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                        <p>
+                            Привіт! Я навчаюся в коледжі <strong>ВСП «КТЕ КНУБА»</strong> (2-й курс). Почав навчання у 2025 році і планую закінчити в 2027.
+                        </p>
+                        <p>
+                            Основну увагу приділяю вивченню **Java Core** та **C++**, розбираюся з об'єктно-орієнтованим програмуванням, структурами даних та основними принципами побудови ПЗ. 
+                        </p>
+                        <p>
+                            Шукаю позицію Junior / Trainee Developer або стажування, де зможу вирішувати реальні завдання та навчатися під керівництвом досвідченіших розробників.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="interactive-card p-5 rounded-2xl text-center space-y-1">
+                            <i class="fa-brands fa-java text-accentRed text-2xl mb-1"></i>
+                            <div class="text-white font-bold text-sm">Java</div>
+                            <div class="text-slate-400 text-xs">Core, ООП, Collections</div>
+                        </div>
+                        <div class="interactive-card p-5 rounded-2xl text-center space-y-1">
+                            <i class="fa-solid fa-code text-accentPurple text-2xl mb-1"></i>
+                            <div class="text-white font-bold text-sm">C++</div>
+                            <div class="text-slate-400 text-xs">Основи, пам'ять</div>
+                        </div>
+                        <div class="interactive-card p-5 rounded-2xl text-center space-y-1">
+                            <i class="fa-solid fa-graduation-cap text-accentRed text-2xl mb-1"></i>
+                            <div class="text-white font-bold text-sm">КТЕ КНУБА</div>
+                            <div class="text-slate-400 text-xs">2 курс (2025-2027)</div>
+                        </div>
+                        <div class="interactive-card p-5 rounded-2xl text-center space-y-1">
+                            <i class="fa-solid fa-language text-accentPurple text-2xl mb-1"></i>
+                            <div class="text-white font-bold text-sm">English B1</div>
+                            <div class="text-slate-400 text-xs">Технічна документація</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="max-w-2xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Навички та Технології</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-2">Натисніть на картку, щоб переглянути детальнішу інформацію</p>
+                    <div class="w-12 h-1 bg-gradient-to-r from-accentRed to-accentPurple mx-auto rounded-full mt-2"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Skill 1: Java -->
+                    <div onclick="openModal('modal-java')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between h-56">
+                        <div class="space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-xl">
+                                <i class="fa-brands fa-java"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-accentRed transition-colors">Java Core & ООП</h3>
+                            <p class="text-slate-300 text-xs line-clamp-2">Базовий синтаксис, принципи ООП (інкапсуляція, наслідування, поліморфізм) та робота з колекціями.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-accentRed pt-3 border-t border-cardBorder">
+                            <span>Детальніше</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Skill 2: C++ -->
+                    <div onclick="openModal('modal-cpp')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between h-56">
+                        <div class="space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-accentPurple transition-colors">C++</h3>
+                            <p class="text-slate-300 text-xs line-clamp-2">Основи мови C++, вказівники, посилання, динамічна пам'ять та структури даних.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-accentPurple pt-3 border-t border-cardBorder">
+                            <span>Детальніше</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Skill 3: Web Basics -->
+                    <div onclick="openModal('modal-web')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between h-56">
+                        <div class="space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-accentRed transition-colors">HTML5 & CSS3</h3>
+                            <p class="text-slate-300 text-xs line-clamp-2">Базова адаптивна верстка веб-сторінок, стилізація та розуміння структури DOM.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-accentRed pt-3 border-t border-cardBorder">
+                            <span>Детальніше</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Skill 4: Git & Tools -->
+                    <div onclick="openModal('modal-git')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between h-56">
+                        <div class="space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-xl">
+                                <i class="fa-code-branch fa-solid"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-accentPurple transition-colors">Git & IDE</h3>
+                            <p class="text-slate-300 text-xs line-clamp-2">Базові команди Git, створення репозиторіїв на GitHub, робота в IntelliJ IDEA та Visual Studio Code.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-accentPurple pt-3 border-t border-cardBorder">
+                            <span>Детальніше</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Skill 5: English B1 -->
+                    <div onclick="openModal('modal-english')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between h-56">
+                        <div class="space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-language"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-accentRed transition-colors">Англійська (B1)</h3>
+                            <p class="text-slate-300 text-xs line-clamp-2">Читання технічної документації, розуміння гайдів, написання зрозумілого коду та коментарів.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-accentRed pt-3 border-t border-cardBorder">
+                            <span>Детальніше</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-16 bg-cardBg/30 border-y border-cardBorder">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="max-w-2xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Навчальні Проєкти</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-2">Практичні роботи, які я робив під час навчання</p>
+                    <div class="w-12 h-1 bg-gradient-to-r from-accentRed to-accentPurple mx-auto rounded-full mt-2"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Project 1 -->
+                    <div onclick="openModal('modal-proj1')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase text-accentRed tracking-wider">Java</span>
+                                <i class="fa-solid fa-folder-open text-slate-500 group-hover:text-accentRed transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-accentRed transition-colors">Консольна система обліку даних</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed">
+                                Навчальний проєкт на Java з реалізацією консольного інтерфейсу, збереженням даних у файли та базовою обробкою помилок.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-medium text-slate-400 pt-3 border-t border-cardBorder">
+                            <span>Деталі проєкту</span>
+                            <i class="fa-solid fa-arrow-right text-accentRed"></i>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div onclick="openModal('modal-proj2')" class="interactive-card p-6 rounded-2xl cursor-pointer group flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase text-accentPurple tracking-wider">C++</span>
+                                <i class="fa-solid fa-folder-open text-slate-500 group-hover:text-accentPurple transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-accentPurple transition-colors">Алгоритмічна програма для обробки даних</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed">
+                                Лабораторна робота на C++, присвячена реалізації алгоритмів сортування, роботи з вказівниками та масивами.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-medium text-slate-400 pt-3 border-t border-cardBorder">
+                            <span>Деталі проєкту</span>
+                            <i class="fa-solid fa-arrow-right text-accentPurple"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="py-16">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="max-w-2xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Освіта</h2>
+                    <div class="w-12 h-1 bg-gradient-to-r from-accentRed to-accentPurple mx-auto rounded-full mt-2"></div>
+                </div>
+
+                <div class="max-w-2xl mx-auto">
+                    <div class="interactive-card p-8 rounded-2xl space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-cardBorder pb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-white">ВСП «КТЕ КНУБА»</h3>
+                                <p class="text-slate-400 text-xs">Факультет комп'ютерних технологій</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-accentRed/10 text-accentRed border border-accentRed/30 text-xs font-semibold">
+                                2025 — 2027 (2 курс)
+                            </span>
+                        </div>
+
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            Отримую базову освіту в сфері інформаційних технологій. Вивчаю основи програмування, комп'ютерні мережі, вищу математику та базовані принципи побудови програмного забезпечення.
+                        </p>
+
+                        <div class="pt-2">
+                            <a href="https://ccte.nau.edu.ua/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs font-bold text-accentPurple hover:text-accentRed transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Офіційний сайт коледжу (ccte.nau.edu.ua)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacts" class="py-16 bg-cardBg/30 border-t border-cardBorder">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="max-w-2xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Контакти</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-2">Буду радий поспілкуватися щодо можливих вакансій або стажування</p>
+                    <div class="w-12 h-1 bg-gradient-to-r from-accentRed to-accentPurple mx-auto rounded-full mt-2"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <!-- Telegram -->
+                    <div class="interactive-card p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-brands fa-telegram"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm">Telegram</h4>
+                            <p class="text-slate-400 text-xs mt-0.5">@hoi422</p>
+                        </div>
+                        <a href="https://t.me/hoi422" target="_blank" rel="noopener" class="block w-full py-2 rounded-xl bg-sky-500/20 text-sky-300 font-semibold text-xs hover:bg-sky-500 hover:text-white transition-all">
+                            Написати
+                        </a>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="interactive-card p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm">Телефон</h4>
+                            <p class="text-slate-400 text-xs mt-0.5">066 101 8256</p>
+                        </div>
+                        <button onclick="copyText('0661018256', this)" class="w-full py-2 rounded-xl bg-accentRed/20 text-accentRed font-semibold text-xs hover:bg-accentRed hover:text-white transition-all">
+                            Скопіювати
+                        </button>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="interactive-card p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-accentPurple/10 text-accentPurple flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm">Email</h4>
+                            <p class="text-slate-400 text-xs mt-0.5 truncate px-1">udovenko.andrii...</p>
+                        </div>
+                        <button onclick="copyText('udovenko.andrii.fit819@kfccte-nau.ukr.education', this)" class="w-full py-2 rounded-xl bg-accentPurple/20 text-accentPurple font-semibold text-xs hover:bg-accentPurple hover:text-white transition-all">
+                            Скопіювати Email
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 border-t border-cardBorder text-center text-xs text-slate-500">
+        <p>© <span id="year"></span> Андрій Удовенко. Портфоліо розробника.</p>
+    </footer>
+
+    
+    <!-- Modal: Java -->
+    <div id="modal-java" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentRed/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <button onclick="closeModal('modal-java')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-lg hover:bg-accentRed hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-accentRed/10 text-accentRed flex items-center justify-center text-2xl">
+                    <i class="fa-brands fa-java"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white">Java Core & ООП</h3>
+                    <p class="text-xs text-slate-400">Основний стек розробки</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p>• <strong>ООП:</strong> Розуміння та застосування інкапсуляції, наслідування, поліморфізму та абстракції на практиці.</p>
+                <p>• <strong>Collections Framework:</strong> Використання ArrayList, LinkedList, HashMap, HashSet залежно від структури даних.</p>
+                <p>• <strong>Exception Handling:</strong> Обробка стандартних винятків, створення власних класів винятків через try-catch.</p>
+                <p>• <strong>I/O Streams:</strong> Зчитування та збереження даних у текстові файли для збереження стану програми.</p>
+            </div>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-java')" class="px-6 py-2.5 rounded-xl bg-accentRed text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: C++ -->
+    <div id="modal-cpp" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentPurple/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <button onclick="closeModal('modal-cpp')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-lg hover:bg-accentPurple hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white">C++</h3>
+                    <p class="text-xs text-slate-400">Базовий рівень та алгоритми</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p>• <strong>Вказівники та посилання:</strong> Розуміння адресної арифметики та передачі параметрів за посиланням.</p>
+                <p>• <strong>Управління пам'яттю:</strong> Динамічне виділення пам'яті (new / delete) та запобігання витокам пам'яті.</p>
+                <p>• <strong>Базові структури:</strong> Робота з одновимірними та двовимірними масивами, структурованими даними (struct).</p>
+            </div>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-cpp')" class="px-6 py-2.5 rounded-xl bg-accentPurple text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Web -->
+    <div id="modal-web" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentRed/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <button onclick="closeModal('modal-web')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-lg hover:bg-accentRed hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-accentRed/10 text-accentRed flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white">HTML5 & CSS3</h3>
+                    <p class="text-xs text-slate-400">Верстка та веб-основи</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p>• <strong>Семантичний HTML:</strong> Побудова зрозумілої та правильної структури веб-сторінки.</p>
+                <p>• <strong>Адаптивність:</strong> Використання Flexbox, CSS Grid та фреймворків (Tailwind CSS) для гарного вигляду на телефонах і ПК.</p>
+            </div>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-web')" class="px-6 py-2.5 rounded-xl bg-accentRed text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Git -->
+    <div id="modal-git" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentPurple/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <button onclick="closeModal('modal-git')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-lg hover:bg-accentPurple hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-2xl">
+                    <i class="fa-code-branch fa-solid"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white">Git & Інструменти</h3>
+                    <p class="text-xs text-slate-400">Системи контролю версій</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p>• <strong>Команди Git:</strong> init, clone, add, commit, push, pull, status.</p>
+                <p>• <strong>Платформи:</strong> Робота з віддаленими репозиторіями на GitHub.</p>
+                <p>• <strong>Середовища розробки:</strong> Налаштування та робота в IntelliJ IDEA, VS Code.</p>
+            </div>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-git')" class="px-6 py-2.5 rounded-xl bg-accentPurple text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: English -->
+    <div id="modal-english" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentRed/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <button onclick="closeModal('modal-english')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-lg hover:bg-accentRed hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-accentRed/10 text-accentRed flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-language"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white">Англійська Мова (B1)</h3>
+                    <p class="text-xs text-slate-400">Intermediate</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p>• Спокійно читаю технічну документацію мов програмування та гайди.</p>
+                <p>• Шукаю рішення технічних проблем на StackOverflow англійською мовою.</p>
+                <p>• Можу вести текстове листування у робочих чатах.</p>
+            </div>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-english')" class="px-6 py-2.5 rounded-xl bg-accentRed text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Proj 1 -->
+    <div id="modal-proj1" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentRed/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <button onclick="closeModal('modal-proj1')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentRed/10 text-accentRed flex items-center justify-center text-lg hover:bg-accentRed hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white">Консольна система обліку (Java)</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Курсовий або навчальний проєкт, розроблений під час навчання в коледжі. Програма дозволяє додавати, редагувати, видаляти та шукати записи через текстове меню в консолі. Реалізовано збереження даних у файл для повторного завантаження при запуску.
+            </p>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-proj1')" class="px-6 py-2.5 rounded-xl bg-accentRed text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Proj 2 -->
+    <div id="modal-proj2" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-2xl bg-cardBg border border-accentPurple/40 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+            <button onclick="closeModal('modal-proj2')" class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-accentPurple/10 text-accentPurple flex items-center justify-center text-lg hover:bg-accentPurple hover:text-white transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white">Алгоритмічна програма (C++)</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Практична робота з реалізації ключових алгоритмів обробки масивів та структур даних. Програма демонструє роботу з пам'яттю через вказівники та динамічне виділення ресурсів.
+            </p>
+            <div class="pt-4 border-t border-cardBorder flex justify-end">
+                <button onclick="closeModal('modal-proj2')" class="px-6 py-2.5 rounded-xl bg-accentPurple text-white font-semibold text-xs">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+        // Modal Functions
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.add('modal-active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.remove('modal-active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-active');
+                if (activeModal) {
+                    activeModal.classList.remove('modal-active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Copy Text Helper
+        function copyText(text, btn) {
+            const temp = document.createElement('input');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const orig = btn.innerText;
+            btn.innerText = 'Скопійовано!';
+            btn.classList.add('bg-emerald-500', 'text-white');
+
+            setTimeout(() => {
+                btn.innerText = orig;
+                btn.classList.remove('bg-emerald-500', 'text-white');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
